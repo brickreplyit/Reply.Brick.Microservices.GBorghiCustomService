@@ -1,0 +1,244 @@
+
+import hudson.tasks.test.AbstractTestResultAction
+
+node{
+		
+    currentBuild.result = "SUCCESS"
+	
+    try {
+        notifyStarted()
+		
+        stage('Clone repository'){
+           //gets all the SCM files
+           checkout scm
+        }
+		
+		def step = 'Build from SQLProj'
+		stage(step){
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Database/Database.ps1')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			bat "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin/MsBuild.exe\" \"${workspace}/Reply.Brick.Database/Reply.Brick.Database.sqlproj\" /p:Configuration=DB_ALL_AT /p:OutputPath=\"F:/Build/SSDT/\""
+		}
+		
+		step = 'Deploy Dacpac to SQL Server'
+		stage(step)
+		{			
+			bat "\"C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/MSBuild/Current/Bin/MsBuild.exe\" \"${workspace}/Reply.Brick.Database/Reply.Brick.Database.sqlproj\" /p:Configuration=DB_ALL_AT /p:OutputPath=\"F:/Build/SSDT/\" /p:TargetPassword=Passw0rd1 /p:SqlPublishProfilePath=\"${workspace}/Reply.Brick.Database/PublishProfiles/AUTOMATED_TESTS/brick_AT.publish.xml\"  /t:Publish "
+		}
+			
+		//step = 'Reply.Brick.Reporting Build / Test / CodeCoverage'
+		//stage(step){			
+		//	bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Reporting.API/Reply.Brick.Reporting.API.csproj\""
+		//	bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Reporting.API/Reply.Brick.Reporting.API.csproj\""
+		//		
+		//	bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Reporting.Tests/Reply.Brick.Reporting.Tests.csproj\""
+		//	bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Reporting.Tests/Reply.Brick.Reporting.Tests.csproj\""	
+		//	bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Reporting.Tests/Reply.Brick.Reporting.Tests.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"		
+		//				
+		//	def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Reporting/ReportingCoverage.ps1 -Workspace ./')
+		//	if(status != 0) {
+		//		error('Error during stage' + step)
+		//	}
+		//	
+		//	def summaryTestRep = junit testResults: 'Reply.Brick.Reporting.Tests/TestResults/junit-results.xml'			
+		//	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/Reporting/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Reporting.API Coverage', reportTitles: ''])
+		//	
+		//	publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Reporting.Tests/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Reporting.API UnitTest', reportTitles: ''])
+		//}
+		
+		step = 'Reply.Brick.Configuration.Manager Build / Test / CodeCoverage'
+		stage(step){
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Configuration.Manager.API/Reply.Brick.Configuration.Manager.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Configuration.Manager.API/Reply.Brick.Configuration.Manager.API.csproj\""
+				
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Configuration.Manager.Tests/Reply.Brick.Configuration.Manager.Tests.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Configuration.Manager.Tests/Reply.Brick.Configuration.Manager.Tests.csproj\""	
+			bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Configuration.Manager.Tests/Reply.Brick.Configuration.Manager.Tests.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"		
+						
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Configuration.Manager/ConfigurationManagerCoverage.ps1 -Workspace ./')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			def summaryTestConfMng = junit testResults: 'Reply.Brick.Configuration.Manager.Tests/TestResults/junit-results.xml'			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/ConfigurationManager/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Configuration.Manager.API Coverage', reportTitles: ''])
+			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Configuration.Manager.Tests/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Configuration.Manager.API UnitTest', reportTitles: ''])
+		}
+		
+		step = 'Reply.Brick.Quality Build / Test / CodeCoverage'
+		stage(step){
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Quality.API/Reply.Brick.Quality.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Quality.API/Reply.Brick.Quality.API.csproj\""
+				
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Quality.Tests/Reply.Brick.Quality.Tests.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Quality.Tests/Reply.Brick.Quality.Tests.csproj\""	
+			bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Quality.Tests/Reply.Brick.Quality.Tests.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"		
+						
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Quality/QualityCoverage.ps1 -Workspace ./')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			def summaryTestQlt = junit testResults: 'Reply.Brick.Quality.Tests/TestResults/junit-results.xml'			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/Quality/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Quality.API Coverage', reportTitles: ''])
+			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Quality.Tests/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Quality.API UnitTest', reportTitles: ''])
+		}	
+
+		step = 'Reply.Brick.Execution Build / Test / CodeCoverage'
+		stage(step){
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Execution.API/Reply.Brick.Execution.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Execution.API/Reply.Brick.Execution.API.csproj\""
+				
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Execution.Tests/Reply.Brick.Execution.Tests.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Execution.Tests/Reply.Brick.Execution.Tests.csproj\""	
+			bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Execution.Tests/Reply.Brick.Execution.Tests.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"		
+						
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Execution/ExecutionCoverage.ps1 -Workspace ./')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			def summaryTestExe = junit testResults: 'Reply.Brick.Execution.Tests/TestResults/junit-results.xml'			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/Execution/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Execution.API Coverage', reportTitles: ''])
+			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Execution.Tests/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Execution.API UnitTest', reportTitles: ''])
+		}			
+				
+		step = 'Reply.Brick.Print Build / Test / CodeCoverage'
+		stage(step){	
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Print/Reply.Brick.Print.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Print/Reply.Brick.Print.csproj\""
+			 
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Print.Test/Reply.Brick.Print.Test.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Print.Test/Reply.Brick.Print.Test.csproj\""	
+			bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Print.Test/Reply.Brick.Print.Test.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"	
+			
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Print/PrintCoverage.ps1 -Workspace ./')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			def summaryTestPrint = junit testResults: 'Reply.Brick.Print.Test/TestResults/junit-results.xml'			
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/Print/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Print Coverage', reportTitles: ''])	
+
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Print.Test/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Print UnitTest', reportTitles: ''])			
+        }
+				
+		step = 'Reply.Brick.Maintenance Build / Test / CodeCoverage'
+		stage(step){			
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Maintenance.API/Reply.Brick.Maintenance.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Maintenance.API/Reply.Brick.Maintenance.API.csproj\""
+			 
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Maintenance.Test/Reply.Brick.Maintenance.Test.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" build \"${workspace}/Reply.Brick.Maintenance.Test/Reply.Brick.Maintenance.Test.csproj\""	
+			bat returnStatus: true, script: "\"C:/Program Files/dotnet/dotnet.exe\" test \"${workspace}/Reply.Brick.Maintenance.Test/Reply.Brick.Maintenance.Test.csproj\" --logger \"nunit;LogFileName=unit_tests.xml\" --no-build"	
+						
+			def status = powershell(returnStatus: true, script: './Jenkins/dev/Reply.Brick.Maintenance/MaintenanceCoverage.ps1 -Workspace ./')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+			
+			def summaryTestMnt = junit testResults: 'Reply.Brick.Maintenance.Test/TestResults/junit-results.xml'
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: './CodeCoverage/Maintenance/', reportFiles: 'index.htm', reportName: 'Reply.Brick.Maintenance.API Coverage', reportTitles: ''])	
+
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './Reply.Brick.Maintenance.Test/TestResults/', reportFiles: 'Generated.html', reportName: 'Reply.Brick.Maintenance.API UnitTest', reportTitles: ''])			
+        }
+			
+				
+		step = 'Deploy'
+		stage(step){
+			//Company Configuration
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.CompanyConfiguration.API/Reply.Brick.CompanyConfiguration.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.CompanyConfiguration.API\" \"${workspace}/Reply.Brick.CompanyConfiguration.API/Reply.Brick.CompanyConfiguration.API.csproj\""
+			
+			//Configuration
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Configuration.Manager.API/Reply.Brick.Configuration.Manager.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Configurations.API\" \"${workspace}/Reply.Brick.Configuration.Manager.API/Reply.Brick.Configuration.Manager.API.csproj\""
+			
+			//Execution
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Execution.API/Reply.Brick.Execution.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.brick.Execution.API\" \"${workspace}/Reply.Brick.Execution.API/Reply.Brick.Execution.API.csproj\""
+						
+			//Notification
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Notification.API/Reply.Brick.Notification.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Notification.API\" \"${workspace}/Reply.Brick.Notification.API/Reply.Brick.Notification.API.csproj\""
+			
+			//Planning
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Planning.API/Reply.Brick.Planning.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Planning.API\" \"${workspace}/Reply.Brick.Planning.API/Reply.Brick.Planning.API.csproj\""
+			
+			//Reporting
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Reporting.API/Reply.Brick.Reporting.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Reporting\" \"${workspace}/Reply.Brick.Reporting.API/Reply.Brick.Reporting.API.csproj\""
+			
+			//Quality
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Quality.API/Reply.Brick.Quality.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Quality.API\" \"${workspace}/Reply.Brick.Quality.API/Reply.Brick.Quality.API.csproj\""
+			
+			//Maintenance
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Maintenance.API/Reply.Brick.Maintenance.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Maintenance.API\" \"${workspace}/Reply.Brick.Maintenance.API/Reply.Brick.Maintenance.API.csproj\""
+			
+			//SignlR
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.SignalR/Reply.Brick.SignalR.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.SignlR.API\" \"${workspace}/Reply.Brick.SignalR/Reply.Brick.SignalR.csproj\""
+			
+			//Warehouse
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" restore \"${workspace}/Reply.Brick.Warehouse.API/Reply.Brick.Warehouse.API.csproj\""
+			bat "\"C:/Program Files/dotnet/dotnet.exe\" publish -c Release -r win10-x64 --output \"F:/Publish/Reply.Brick.Warehouse.API\" \"${workspace}/Reply.Brick.Warehouse.API/Reply.Brick.Warehouse.API.csproj\""
+			
+		}
+		
+       notifyFinish()
+    }
+    catch (err) {
+        currentBuild.result = "FAILURE"
+		notifyFailure(err)
+        //USED to notifiy to JENKINS that something happens
+        throw err
+    }
+}
+@NonCPS
+//send the job finish notification
+def notifyFinish() {	
+	def testStatus = ""
+	testStatus = testStatus + "\n-------------------------------------------------\n"
+	
+    AbstractTestResultAction testResultAction = currentBuild.rawBuild.getAction(AbstractTestResultAction.class)
+    if (testResultAction != null) {
+        def total = testResultAction.totalCount
+        def failed = testResultAction.failCount
+        def skipped = testResultAction.skipCount
+        def passed = total - failed - skipped
+        testStatus = "Test Status: Total: ${total}, Passed: ${passed}, Failed: ${failed} ${testResultAction.failureDiffString}, Skipped: ${skipped}"
+		
+		failedTests = testResultAction.getFailedTests();
+		def failures = [:]
+		failedTests.each { test ->
+			failures.put(test.fullDisplayName, test)
+			testStatus = testStatus + "\n-------------------------------------------------\n"
+			testStatus = testStatus + "Failed test: ${test.fullDisplayName}\n" +
+			"name: ${test.name}\n" +
+			"age: ${test.age}\n" +
+			"failCount: ${test.failCount}\n" +
+			"failedSince: ${test.failedSince}\n" +
+			"errorDetails: ${test.errorDetails}\n"
+		}
+    }			
+	currentBuild.result = 'SUCCESS'		
+	// mail bcc: '', body: "Finish pipeline on DEVELOPMENT ${env.JOB_NAME} ${testStatus} ", cc: 'm.barotto@reply.it', from: 'brick.it.admin@reply.it', replyTo: '', subject: "Job ${env.JOB_NAME} ${env.BUILD_NUMBER}", to: 'e.dabove@reply.it'
+
+}
+//send the job start notification
+def notifyStarted() {
+	// mail bcc: '', body: "Starting pipeline on DEVELOPMENT ${env.JOB_NAME}", cc: 'm.barotto@reply.it', from: 'brick.it.admin@reply.it', replyTo: '', subject: "Job ${env.JOB_NAME} ${env.BUILD_NUMBER} ", to: 'e.dabove@reply.it'
+}
+//send the job failure notification
+def notifyFailure(err) {
+	// mail bcc: '', body: "Error pipeline on DEVELOPMENT ${env.JOB_NAME} ${err}", cc: 'm.barotto@reply.it', from: 'brick.it.admin@reply.it', replyTo: '', subject: "Job ${env.JOB_NAME} ${env.BUILD_NUMBER}", to: 'e.dabove@reply.it'
+}

@@ -1,0 +1,34 @@
+node{
+    currentBuild.result = "SUCCESS"
+	
+    try {
+		
+		def step = 'Clone repository'
+        stage(step){
+           //gets all the SCM files
+           checkout scm
+        }
+		
+		step = 'docfx metadati'
+		stage(step){
+			def status = powershell(returnStatus: true, script: './Jenkins/documentation/docfx_metadati.ps1')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+		}
+		
+		step = 'docfx build'
+		stage(step){
+			def status = powershell(returnStatus: true, script: './Jenkins/documentation/docfx_build.ps1')
+			if(status != 0) {
+				error('Error during stage' + step)
+			}
+		}
+
+    }
+    catch (err) {
+        currentBuild.result = "FAILURE"
+        throw err
+    }
+}
+

@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Configurations>Debug;Release;DB_ALL_IN_ONE_DEV;DB_AIO_AUTOMATED_TESTS;DB_ALL_DEV;DB_ALL_AT;DB_ALL_TEKSID_AT;DB_ALL_COMPARE;DB_ALL_TEKSID_COMPARE</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reply.Brick.GBorghiCustomService.DTO\Reply.Brick.GBorghiCustomService.DTO.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Reply.Brick.Infrastructure">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure\Ver_1.0.0\Reply.Brick.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Dapper">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Dapper\Ver_1.0.0\Reply.Brick.Infrastructure.Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Interfaces">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Interfaces\Ver_1.0.0\Reply.Brick.Infrastructure.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Messages">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Messages\Ver_1.0.0\Reply.Brick.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.data.sqlclient\4.6.0\ref\netcoreapp2.1\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interface\" />
+    <Folder Include="Providers\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<license type="Commercial" DeploymentType="Royalty-Free" Quantity="1" Edition="Standard" Applications="NServiceBus" RenewalType="Perpetual" UpgradeProtectionExpiration="2019-12-19" expiration="2119-07-15" id="16edfc6d-c46d-44fa-aff1-0678424abb5b">
+  <name>Business Unit of Hermes Reply srl</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>O4OBMAaiMCRj7zCdKje8Y0omzWs=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>1SjrWhtDxcGy3vZvHw0YXHAKe6A4Iq/9hpYcExLAif2JnLGgWHMs7U8454KV5BRWR4tXEhXlSfiN48wnJWNEhveGMuVyfZm/sCSTF8FgmRNmM/tNaLomj0042kEt33WiEHrWPjfSQq7IN/EKkSE/gj2Q0Ea8hdyOY7WhcgglF6Y=</SignatureValue>
+  </Signature>
+</license>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File name extension must be .runsettings -->
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.VisualStudio.Coverage.DynamicCoverageDataCollector, Microsoft.VisualStudio.TraceCollector, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Configuration>
+          <CodeCoverage>
+
+			<ModulePaths>              
+			  <Exclude>                
+				<ModulePath>.*Moq.dll</ModulePath>
+				<ModulePath>.*GenFu.dll</ModulePath>     
+				<ModulePath>.*autofac.dll</ModulePath> 
+				<ModulePath>.*automapper.dll</ModulePath>  
+				<ModulePath>.*nservicebus.callbacks.dll</ModulePath>		
+				<ModulePath>.*nservicebus.core.dll</ModulePath>	
+				<ModulePath>.*nservicebus.newtonsoft.json.dll</ModulePath>	
+				<ModulePath>.*nservicebus.persistence.sql.dll</ModulePath>	
+				<ModulePath>.*nservicebus.transport.rabbitmq.dll</ModulePath>	
+				<ModulePath>.*serilog.dll</ModulePath>	
+				<ModulePath>.*microsoft.codeanalysis.workspaces.dll</ModulePath>	
+				<ModulePath>.*microsoft.codeanalysis.csharp.workspaces.dll</ModulePath>	
+				<ModulePath>.*identityserver4.storage.dll</ModulePath>	
+				<ModulePath>.*identityserver4.dll</ModulePath>	
+				<ModulePath>.*identityserver4.accesstokenvalidation.dll</ModulePath>	
+				<ModulePath>.*identitymodel.dll</ModulePath>	
+				<ModulePath>.*identitymodel.aspnetcore.oauth2introspection.dll</ModulePath>	
+				<ModulePath>.*fluentassertions.dll</ModulePath>	
+				<ModulePath>.*automapper.extensions.microsoft.dependencyinjection.dll</ModulePath>	
+				<ModulePath>.*autofac.extensions.dependencyinjection.dll</ModulePath>	
+				<ModulePath>.*microsoft.visualstudio.threading.dll</ModulePath>	
+				<ModulePath>.*prometheus.netstandard.dll</ModulePath>	
+				<ModulePath>.*reply.brick.busoptions.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.api.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.communication.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.dao.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.dto.dll</ModulePath>
+				<ModulePath>.*reply.brick.execution.localization.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.mapping.dll</ModulePath>	
+				<ModulePath>.*reply.brick.execution.repository.dapper.dll</ModulePath>		
+				<ModulePath>.*reply.brick.execution.services.dll</ModulePath>	
+				<ModulePath>.*reply.brick.healthcheck.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.dapper.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.excelreports.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.interfaces.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.persistance.dll</ModulePath>	
+				<ModulePath>.*reply.brick.infrastructure.service.dll</ModulePath>	
+				<ModulePath>.*reply.brick.localization.dll</ModulePath>	
+				<ModulePath>.*reply.brick.messages.dll</ModulePath>	
+				<ModulePath>.*reply.brick.reporting.dao.dll</ModulePath>		
+			  </Exclude>
+			</ModulePaths>
+
+			</CodeCoverage>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

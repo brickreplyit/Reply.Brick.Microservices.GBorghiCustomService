@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Configurations>Debug;Release;DB_ALL_IN_ONE_DEV;DB_AIO_AUTOMATED_TESTS;DB_ALL_DEV;DB_ALL_AT;DB_ALL_TEKSID_AT;DB_ALL_COMPARE;DB_ALL_TEKSID_COMPARE</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove="Enums\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+    <PackageReference Include="MongoDB.Bson" Version="2.25.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="NServiceBus" Version="7.1.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Reply.Brick.Infrastructure">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure\Ver_1.0.0\Reply.Brick.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Interfaces">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Interfaces\Ver_1.0.0\Reply.Brick.Infrastructure.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Messages">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Messages\Ver_1.0.0\Reply.Brick.Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+  </ItemGroup>
+</Project>

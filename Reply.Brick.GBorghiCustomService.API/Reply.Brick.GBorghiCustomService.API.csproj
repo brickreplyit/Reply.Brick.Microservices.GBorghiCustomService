@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Configurations>Debug;Release;DB_ALL_IN_ONE_DEV;DB_AIO_AUTOMATED_TESTS;DB_ALL_DEV;DB_ALL_AT;DB_ALL_TEKSID_AT;DB_ALL_COMPARE;DB_ALL_TEKSID_COMPARE</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NServiceBus" Version="7.1.10" />
+    <PackageReference Include="NServiceBus.Autofac" Version="7.0.0" />
+    <PackageReference Include="NServiceBus.Callbacks" Version="3.0.0" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.2.0" />
+    <PackageReference Include="NServiceBus.Persistence.Sql" Version="4.6.0" />
+    <PackageReference Include="NServiceBus.RabbitMQ" Version="5.1.2" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
+	<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reply.Brick.GBorghiCustomService.Service\Reply.Brick.GBorghiCustomService.Service.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.applicationinsights\2.4.0\lib\netstandard1.3\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.BaseApi">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.BaseApi\Ver_1.0.0\Reply.Brick.BaseApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure\Ver_1.0.0\Reply.Brick.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Dapper">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Dapper\Ver_1.0.0\Reply.Brick.Infrastructure.Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Interfaces">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Interfaces\Ver_1.0.0\Reply.Brick.Infrastructure.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Persistance">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Persistance\Ver_1.0.0\Reply.Brick.Infrastructure.Persistance.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Service">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Service\Ver_1.0.0\Reply.Brick.Infrastructure.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Messages">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Messages\Ver_1.0.0\Reply.Brick.Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="license.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1json__JsonSchema="https://codemagic.io/codemagic-schema.json" properties_4launchsettings_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

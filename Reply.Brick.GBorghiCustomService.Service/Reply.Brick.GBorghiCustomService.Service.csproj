@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Configurations>Debug;Release;DB_ALL_IN_ONE_DEV;DB_AIO_AUTOMATED_TESTS;DB_ALL_DEV;DB_ALL_AT;DB_ALL_TEKSID_AT;DB_ALL_COMPARE;DB_ALL_TEKSID_COMPARE</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="26.1.0" />
+    <PackageReference Include="EPPlus" Version="4.1.0" />
+    <PackageReference Include="JUST.NETCore" Version="2.1.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
+    <PackageReference Include="Newtonsoft.Json.Interface" Version="2.2.2" />
+    <PackageReference Include="NServiceBus" Version="7.1.10" />
+    <PackageReference Include="NServiceBus.Callbacks" Version="3.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
+    <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="10.2.0" />
+    <PackageReference Include="StackExchange.Redis.Extensions.Newtonsoft" Version="10.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reply.Brick.GBorghiCustomService.DTO\Reply.Brick.GBorghiCustomService.DTO.csproj" />
+    <ProjectReference Include="..\Reply.Brick.GBorghiCustomService.SQLStorage\Reply.Brick.GBorghiCustomService.SQLStorage.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Reply.Brick.Infrastructure">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure\Ver_1.0.0\Reply.Brick.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Interfaces">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Interfaces\Ver_1.0.0\Reply.Brick.Infrastructure.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Infrastructure.Service">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Infrastructure.Service\Ver_1.0.0\Reply.Brick.Infrastructure.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Reply.Brick.Messages">
+      <HintPath>..\..\References\BrickBuildingBlocks\Reply.Brick.Messages\Ver_1.0.0\Reply.Brick.Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
