@@ -2,18 +2,15 @@
 using Reply.Brick.Infrastructure.BaseEventHandler;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
-using Reply.Brick.Messages.Requests.ToERP;
-using Reply.Brick.Infrastructure.Messages;
 using System.Threading.Tasks;
 using System;
-using Reply.Brick.Messages.Requests.Response;
 using Reply.Brick.Messages.Messages.FromEventManager;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
 namespace Reply.Brick.GBorghiCustomService.Service.EventHandler
 {
-    public class ProductionEventHandler : BaseEventHandler,
+    public class EventHandler : BaseEventHandler,
         IHandleMessages<BrickEventIntegrationEvent>
     {
         #region Variables
@@ -23,9 +20,9 @@ namespace Reply.Brick.GBorghiCustomService.Service.EventHandler
         #endregion
 
         #region Constructor
-        public ProductionEventHandler(ILogger<ProductionEventHandler> logger,
-                                      IPrintService printService,
-                                      IConfiguration configuration)
+        public EventHandler(ILogger<EventHandler> logger,
+                            IPrintService printService,
+                            IConfiguration configuration)
         {
 
             _logger = logger;
